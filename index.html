@@ -80,17 +80,20 @@
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="dns-prefetch" href="https://prod.spline.design">
 
   <!-- Preload above-fold logo -->
   <link rel="preload" as="image" href="photos/Logo1.jpg" fetchpriority="high">
+
+  <!-- Preconnect + preload Spline CDN — starts downloading before any JS runs -->
+  <link rel="preconnect" href="https://prod.spline.design" crossorigin>
+  <link rel="preload" as="fetch" href="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" crossorigin="anonymous">
 
   <!-- Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Spline viewer — load immediately so scene is ready before user reaches FAQ -->
+  <!-- Spline viewer — module scripts are deferred by spec, registers custom element early -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 
   <!-- GSAP + Lenis — load async, execute before body scripts via defer order -->
@@ -1293,6 +1296,219 @@
 
     .vs-col.snc .vs-row span { color: var(--text) }
     .vs-col.other .vs-row span { color: var(--muted) }
+
+    /* ── Lightning Split Comparison ── */
+    .lightning-split {
+      position: relative;
+      height: 400px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border2);
+      margin-bottom: 64px;
+      user-select: none;
+    }
+
+    .ls-panel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .ls-panel-right {
+      background: rgba(0,0,0,.22);
+      justify-content: flex-end;
+    }
+
+    .ls-panel-left {
+      background: var(--surface);
+      justify-content: flex-start;
+    }
+
+    .ls-panel-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 75% 50%, rgba(124,58,237,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ls-panel-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 25% 50%, rgba(255,92,26,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ls-content {
+      width: 44%;
+      padding: 0 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .ls-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .ls-col-header {
+      padding: 0 0 14px;
+      font-size: .88rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+      border-bottom: 1px solid;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-family: var(--font-a);
+    }
+
+    .ls-panel-left .ls-col-header {
+      color: var(--orange);
+      border-bottom-color: rgba(255,92,26,.2);
+    }
+
+    .ls-panel-right .ls-col-header {
+      color: #c0c0e0;
+      border-bottom-color: rgba(120,120,160,.25);
+    }
+
+    .ls-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ls-row:last-child { border-bottom: none; }
+
+    .ls-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .65rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ls-badge-good { background: rgba(34,197,94,.15); color: #4ade80; }
+    .ls-badge-bad  { background: rgba(239,68,68,.1);  color: #f87171; }
+
+    .ls-row span {
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+
+    .ls-panel-left .ls-row span  { color: var(--text); }
+    .ls-panel-right .ls-row span { color: var(--muted); }
+
+    .ls-ghost {
+      position: absolute;
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      line-height: 1;
+      color: rgba(255,255,255,.025);
+      pointer-events: none;
+      user-select: none;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ls-ghost-left  { left: 5%; }
+    .ls-ghost-right { right: 5%; }
+
+    .ls-hint {
+      position: absolute;
+      bottom: 16px;
+      font-size: .65rem;
+      color: var(--muted);
+      letter-spacing: .8px;
+      font-family: var(--font-a);
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 25;
+      transition: opacity .5s;
+    }
+
+    .ls-hint-left  { left: 24px; }
+    .ls-hint-right { right: 24px; }
+
+    .lightning-split.ls-active .ls-hint { opacity: 0; }
+
+    /* ── Panel copy blocks (empty-space content) ── */
+    .ls-panel-copy {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .ls-copy-snc {
+      left: 54%;
+      width: 34%;
+    }
+
+    .ls-copy-other {
+      left: 22%;
+      width: 32%;
+    }
+
+    .ls-copy-eyebrow {
+      font-size: .62rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-family: var(--font-a);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .ls-panel-left .ls-copy-eyebrow  { color: var(--orange); }
+    .ls-panel-right .ls-copy-eyebrow { color: var(--muted); }
+
+    .ls-copy-headline {
+      font-family: var(--font-display);
+      font-size: 3.6rem;
+      line-height: 1;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+    }
+
+    .ls-panel-left  .ls-copy-headline       { color: var(--text); }
+    .ls-panel-right .ls-copy-headline       { color: var(--text2); }
+    .ls-panel-left  .ls-copy-headline span  { color: var(--orange); }
+    .ls-panel-right .ls-copy-headline span  { color: #f87171; }
+
+    .ls-copy-sub {
+      font-size: .8rem;
+      line-height: 1.75;
+      max-width: 280px;
+    }
+
+    .ls-panel-left  .ls-copy-sub { color: var(--text2); }
+    .ls-panel-right .ls-copy-sub { color: var(--muted); }
+
+    .ls-copy-divider {
+      width: 32px;
+      height: 2px;
+      margin-bottom: 14px;
+      border-radius: 2px;
+    }
+
+    .ls-panel-left  .ls-copy-divider { background: var(--orange); }
+    .ls-panel-right .ls-copy-divider { background: #f87171; }
 
     /* ── 4 Pillars ── */
     .why-pillars {
@@ -2541,7 +2757,9 @@
     .testimonials {
       padding: 100px 0;
       background: var(--bg2);
-      overflow: hidden
+      overflow: hidden;
+      contain: layout style;
+      overflow-anchor: none;
     }
 
     .testi-columns-wrap {
@@ -2551,6 +2769,7 @@
       margin-top: 60px;
       max-height: 680px;
       overflow: hidden;
+      overflow-anchor: none;
       -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
       mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)
     }
@@ -2586,7 +2805,11 @@
     }
 
     .testi-col-inner {
-      animation: scrollUp linear infinite
+      animation: scrollUp linear infinite;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      overflow-anchor: none;
     }
 
     .testi-col:nth-child(1) .testi-col-inner { animation-duration: 22s }
@@ -2706,30 +2929,47 @@
         linear-gradient(to left,   var(--bg2) 0%, transparent 14%)
     }
 
-    /* Loading placeholder */
+    /* Paint over "Built with Spline" badge — bottom-right corner */
+    .faq-spline-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 56px;
+      background: var(--bg2);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    /* Loading placeholder — silent shimmer, no text */
     .faq-spline-loader {
       position: absolute;
       inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
       z-index: 5;
       background: var(--bg2);
-      transition: opacity .6s ease
+      transition: opacity .8s ease;
+      overflow: hidden;
     }
 
-    .faq-spline-loader-ring {
-      width: 44px;
-      height: 44px;
-      border: 2px solid var(--border);
-      border-top-color: var(--orange);
-      border-radius: 50%;
-      animation: spin .9s linear infinite
+    .faq-spline-loader::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.03) 50%, transparent 60%);
+      background-size: 200% 100%;
+      animation: spline-shimmer 2.2s ease-in-out infinite;
     }
+
+    @keyframes spline-shimmer {
+      0%   { background-position: 200% 0 }
+      100% { background-position: -200% 0 }
+    }
+
+    .faq-spline-loader-ring { display: none }
 
     .faq-spline-loader-text {
+      display: none;
       font-size: .72rem;
       color: var(--muted);
       letter-spacing: 1.5px;
@@ -2814,15 +3054,53 @@
       overflow: hidden
     }
 
-    .contact-inner::after {
-      content: '';
+    /* ── Infinite grid layers ── */
+    .cg-base,
+    .cg-hover {
       position: absolute;
-      bottom: -100px;
-      right: -100px;
-      width: 400px;
-      height: 400px;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,1) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .cg-base {
+      opacity: 0;
+      z-index: 0;
+    }
+
+    .cg-hover {
+      opacity: .18;
+      z-index: 0;
+      -webkit-mask-image: radial-gradient(300px circle at -999px -999px, black, transparent);
+      mask-image: radial-gradient(300px circle at -999px -999px, black, transparent);
+    }
+
+    .cg-blob {
+      position: absolute;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 92, 26, 0.1) 0%, transparent 70%)
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cg-blob-orange {
+      top: -25%;
+      right: -10%;
+      width: 45%;
+      height: 45%;
+      background: rgba(255, 92, 26, 0.22);
+      filter: blur(90px);
+    }
+
+    .cg-blob-blue {
+      bottom: -25%;
+      left: -10%;
+      width: 40%;
+      height: 40%;
+      background: rgba(0, 100, 255, 0.18);
+      filter: blur(90px);
     }
 
     .contact-info h2 {
@@ -2979,6 +3257,31 @@
       background: #ff7040;
       transform: translateY(-2px);
       box-shadow: 0 12px 36px var(--orange-glow)
+    }
+
+    .contact-form-card {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 36px;
+      transform: translateY(-6px);
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.4),
+        0 8px 20px rgba(0,0,0,0.35),
+        0 20px 48px rgba(0,0,0,0.28),
+        0 40px 80px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .contact-form-card:hover {
+      transform: translateY(-12px);
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.45),
+        0 12px 28px rgba(0,0,0,0.38),
+        0 28px 60px rgba(0,0,0,0.3),
+        0 56px 100px rgba(0,0,0,0.2),
+        0 0 60px rgba(255,100,40,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
     .social-links {
@@ -3187,20 +3490,42 @@
         grid-template-columns: 1fr
       }
 
-      .vs-strip {
-        grid-template-columns: 1fr;
-        overflow-x: auto;
+      .lightning-split {
+        height: auto;
+        overflow: visible;
+        background: none;
+        border: none;
       }
 
-      .vs-divider {
-        writing-mode: horizontal-tb;
-        padding: 10px;
-        border-left: none;
-        border-right: none;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-        font-size: .85rem;
+      .ls-panel {
+        position: relative;
+        display: block;
+        padding: 20px 24px;
+        inset: auto;
       }
+
+      .ls-panel-left {
+        border-radius: 16px 16px 0 0;
+        border: 1px solid var(--border2);
+        border-bottom: none;
+      }
+
+      .ls-panel-right {
+        border-radius: 0 0 16px 16px;
+        border: 1px solid var(--border2);
+        border-top: 1px solid rgba(255,255,255,.05);
+        justify-content: flex-start;
+      }
+
+      .ls-panel-left::before,
+      .ls-panel-right::before { display: none; }
+
+      .ls-content {
+        width: 100%;
+        padding: 0;
+      }
+
+      .ls-svg, .ls-ghost, .ls-hint, .ls-panel-copy { display: none; }
 
       .ai-grid,
       .contact-inner,
@@ -3261,6 +3586,92 @@
       .results-grid {
         grid-template-columns: 1fr 1fr
       }
+
+      /* reduce all major section padding */
+      .results, .testimonials, .team, .pricing, .ai-section {
+        padding: 60px 0
+      }
+      .process { padding: 60px 0 }
+
+      /* hero stats */
+      .hero-stats { gap: 24px }
+      .hero-sub { font-size: 1rem }
+
+      /* section titles */
+      .section-title { font-size: clamp(1.6rem, 6vw, 2.4rem) }
+
+      /* result numbers */
+      .result-num { font-size: 2.2rem }
+      .results-inner { padding: 32px 20px }
+      .results-grid { gap: 28px }
+
+      /* ai section phones — stack them */
+      .ai-visual-phones { flex-wrap: wrap }
+      .phone-mock:not(.main) { display: none }
+      .phone-mock.main { width: 200px }
+
+      /* process orbital */
+      .orbital-orbit-area { height: 300px }
+      .orbital-info { min-height: 160px }
+
+      /* contact levitation too strong on mobile */
+      .contact-form-card {
+        transform: translateY(-3px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07)
+      }
+      .contact-form-card:hover {
+        transform: translateY(-6px)
+      }
+
+      /* footer bottom stack */
+      .footer-bottom { flex-direction: column; text-align: center }
+
+      /* prevent rings overflow on hero */
+      .hero-rings { display: none }
+
+      /* restore default cursor on touch devices */
+      body, a, button, input, select, textarea, [onclick] {
+        cursor: auto
+      }
+      #cursor-dot, #cursor-glow { display: none }
+    }
+
+    @media(max-width:480px) {
+      .container { padding: 0 16px }
+
+      /* single column everything at 480 */
+      .team-grid { grid-template-columns: 1fr }
+      .results-grid { grid-template-columns: 1fr }
+      .ai-features { grid-template-columns: 1fr }
+      .hero-stats { flex-direction: column; gap: 16px }
+
+      /* team image height */
+      .team-img { height: 280px }
+
+      /* footer full column */
+      .footer-inner { grid-template-columns: 1fr !important; gap: 32px }
+
+      /* orbital even smaller */
+      .orbital-orbit-area { height: 260px }
+
+      /* pricing label */
+      .price-card.featured::before { font-size: .62rem }
+
+      /* section label */
+      .section-label { font-size: .65rem }
+
+      /* hero */
+      .hero { padding: 90px 0 50px }
+
+      /* ai inner extra compact */
+      .ai-inner { padding: 28px 16px; border-radius: 16px }
+
+      /* results inner */
+      .results-inner { padding: 28px 16px; border-radius: 16px }
+
+      /* testi columns — tighten */
+      .testi-columns-wrap { gap: 14px }
+      .testi-col { width: 280px }
     }
 
     /* ─── ANIMATIONS ─── */
@@ -3496,7 +3907,7 @@
   <!-- ─── HERO ─── -->
   <section class="hero" id="home">
     <div class="hero-bg">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+      <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto">
         <source src="photos/Guiding brands video.mp4" type="video/mp4">
       </video>
     </div>
@@ -3836,27 +4247,75 @@
         <p class="section-sub reveal">We don't just run campaigns · we embed ourselves in your business, obsessing over your numbers as if they were our own.</p>
       </div>
 
-      <!-- VS Comparison -->
-      <div class="vs-strip reveal">
-        <div class="vs-col snc">
-          <div class="vs-col-header">✦ S&amp;C Digital Agency</div>
-          <div class="vs-row"><div class="vs-badge">✓</div><span>Hyderabad-first, local market expertise</span></div>
-          <div class="vs-row"><div class="vs-badge">✓</div><span>AI-powered execution · 10× faster delivery</span></div>
-          <div class="vs-row"><div class="vs-badge">✓</div><span>Real-time dashboards &amp; weekly reporting</span></div>
-          <div class="vs-row"><div class="vs-badge">✓</div><span>Dedicated WhatsApp account manager</span></div>
-          <div class="vs-row"><div class="vs-badge">✓</div><span>Flexible EMI plans from ₹1,667/month</span></div>
-          <div class="vs-row"><div class="vs-badge">✓</div><span>Guaranteed KPI deliverables every month</span></div>
+      <!-- VS Comparison – Lightning Split -->
+      <div class="lightning-split reveal" id="lightningSplit">
+
+        <!-- Right panel (Traditional Agencies) – base layer -->
+        <div class="ls-panel ls-panel-right" id="lsPanelRight">
+          <div class="ls-ghost ls-ghost-right">OTHERS</div>
+
+          <!-- Copy block in empty left zone (visible when hovering Traditional side) -->
+          <div class="ls-panel-copy ls-copy-other">
+            <div class="ls-copy-eyebrow">The Old Way</div>
+            <div class="ls-copy-headline">Stuck.<br>Slow.<br><span>Overpriced.</span></div>
+            <div class="ls-copy-divider"></div>
+            <p class="ls-copy-sub">Cookie-cutter campaigns. Bloated retainers. Monthly reports you can't decipher. You pay premium prices for average results - and no one is accountable.</p>
+          </div>
+
+          <div class="ls-content">
+            <div class="ls-col-header">✗ Traditional Agencies</div>
+            <div class="ls-row"><div class="ls-badge ls-badge-bad">✗</div><span>Generic, one-size-fits-all approach</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-bad">✗</div><span>Slow manual processes, missed deadlines</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-bad">✗</div><span>Black-box reports you can't verify</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-bad">✗</div><span>Rotating teams with no continuity</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-bad">✗</div><span>Locked-in expensive annual contracts</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-bad">✗</div><span>Vague promises, zero accountability</span></div>
+          </div>
         </div>
-        <div class="vs-divider">VS</div>
-        <div class="vs-col other">
-          <div class="vs-col-header">✗ Traditional Agencies</div>
-          <div class="vs-row"><div class="vs-badge">✗</div><span>Generic, one-size-fits-all approach</span></div>
-          <div class="vs-row"><div class="vs-badge">✗</div><span>Slow manual processes, missed deadlines</span></div>
-          <div class="vs-row"><div class="vs-badge">✗</div><span>Black-box monthly reports you can't verify</span></div>
-          <div class="vs-row"><div class="vs-badge">✗</div><span>Rotating teams with no continuity</span></div>
-          <div class="vs-row"><div class="vs-badge">✗</div><span>Locked-in expensive annual contracts</span></div>
-          <div class="vs-row"><div class="vs-badge">✗</div><span>Vague promises, zero accountability</span></div>
+
+        <!-- Left panel (S&C) – clipped layer -->
+        <div class="ls-panel ls-panel-left" id="lsPanelLeft">
+          <div class="ls-ghost ls-ghost-left">S&amp;C</div>
+
+          <!-- Copy block in empty right zone (visible when hovering S&C side) -->
+          <div class="ls-panel-copy ls-copy-snc">
+            <div class="ls-copy-eyebrow">Why S&amp;C?</div>
+            <div class="ls-copy-headline">Grow<br>Smarter.<br><span>Faster.</span></div>
+            <div class="ls-copy-divider"></div>
+            <p class="ls-copy-sub">Hyderabad-born, AI-powered, and obsessed with your numbers. No middlemen, no fluff - just a lean team that moves 10× faster and owns every result we deliver.</p>
+          </div>
+
+          <div class="ls-content">
+            <div class="ls-col-header">✦ S&amp;C Digital Agency</div>
+            <div class="ls-row"><div class="ls-badge ls-badge-good">✓</div><span>Hyderabad-first, local market expertise</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-good">✓</div><span>AI-powered execution · 10× faster delivery</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-good">✓</div><span>Real-time dashboards &amp; weekly reporting</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-good">✓</div><span>Dedicated WhatsApp account manager</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-good">✓</div><span>Flexible EMI plans from ₹1,667/month</span></div>
+            <div class="ls-row"><div class="ls-badge ls-badge-good">✓</div><span>Guaranteed KPI deliverables every month</span></div>
+          </div>
         </div>
+
+        <!-- Electric arc divider SVG -->
+        <svg id="lsSvg" class="ls-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <filter id="ls-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="0.9" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- outer halo -->
+          <polyline id="lsPoly3" fill="none" stroke="rgba(173,216,230,0.7)" stroke-width="3" vector-effect="non-scaling-stroke" filter="url(#ls-glow)"/>
+          <!-- mid glow -->
+          <polyline id="lsPoly1" fill="none" stroke="rgba(135,206,250,0.55)" stroke-width="2.2" vector-effect="non-scaling-stroke" filter="url(#ls-glow)"/>
+          <!-- bright core -->
+          <polyline id="lsPoly2" fill="none" stroke="white" stroke-width="1.2" stroke-opacity="0.95" vector-effect="non-scaling-stroke"/>
+        </svg>
+
+        <!-- Hover hints -->
+        <div class="ls-hint ls-hint-left">← hover to reveal</div>
+        <div class="ls-hint ls-hint-right">hover to reveal →</div>
+
       </div>
 
       <!-- 4 Pillars -->
@@ -4437,7 +4896,7 @@
               <span class="faq-spline-loader-text">Loading 3D Scene</span>
             </div>
 
-            <!-- Spline 3D scene — loads immediately in background -->
+            <!-- Spline 3D scene — CDN URL, preloaded from <head> -->
             <spline-viewer
               url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               id="faqSplineViewer"
@@ -4455,7 +4914,13 @@
   <!-- ─── CONTACT ─── -->
   <section class="contact" id="contact">
     <div class="container">
-      <div class="contact-inner">
+      <div class="contact-inner" id="contactInner">
+        <!-- Infinite grid background -->
+        <div class="cg-base" id="cgBase"></div>
+        <div class="cg-hover" id="cgHover"></div>
+        <div class="cg-blob cg-blob-orange"></div>
+        <div class="cg-blob cg-blob-blue"></div>
+
         <div class="contact-info" style="position:relative;z-index:1">
           <div class="section-label">Get In Touch</div>
           <h2>Let's Build Something<br>
@@ -4523,7 +4988,7 @@
           </div>
         </div>
         <div style="position:relative;z-index:1">
-          <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:20px;padding:36px">
+          <div class="contact-form-card">
             <h3 style="font-family:var(--font-d);font-size:1.3rem;font-weight:800;margin-bottom:24px">Book a Free
               Strategy Call</h3>
             <div class="form-group">
@@ -5319,32 +5784,45 @@
 
       function stripBranding() {
         const sr = viewer.shadowRoot;
-        if (!sr || sr.querySelector('#snc-hide-brand')) return;
-        const s = document.createElement('style');
-        s.id = 'snc-hide-brand';
+        if (!sr) return;
+        // Inject/update hide-all style
+        let s = sr.querySelector('#snc-hide-brand');
+        if (!s) { s = document.createElement('style'); s.id = 'snc-hide-brand'; sr.appendChild(s); }
         s.textContent = `
-          #logo,.logo,[class*="logo"],[id*="logo"],
-          a[href*="spline"],[class*="watermark"],[class*="brand"],
-          div[style*="z-index: 10000"],div[style*="z-index:10000"]
-          { display:none !important }
+          #logo, .logo, [class*="logo"], [id*="logo"],
+          a[href*="spline"], [class*="watermark"], [class*="brand"],
+          [class*="Built"], [class*="built"],
+          div[style*="z-index: 10000"], div[style*="z-index:10000"],
+          div[style*="position: fixed"], div[style*="position:fixed"]
+          { display:none !important; opacity:0 !important; pointer-events:none !important }
         `;
-        sr.appendChild(s);
+        // Also nuke any matching DOM nodes directly
+        sr.querySelectorAll('a, [class*="logo"], [class*="brand"], [class*="watermark"]').forEach(el => {
+          if (el.textContent.toLowerCase().includes('spline') || el.href?.includes('spline')) {
+            el.style.cssText = 'display:none!important';
+          }
+        });
       }
 
       function hideLoader() {
         if (!loader) return;
         loader.style.opacity = '0';
-        setTimeout(() => { loader.style.display = 'none'; }, 600);
+        setTimeout(() => { loader.style.display = 'none'; }, 800);
       }
 
       viewer.addEventListener('load', () => {
         hideLoader();
+        // Run immediately then retry — Spline injects badge after scene renders
         stripBranding();
-        [500, 1500, 3000].forEach(t => setTimeout(stripBranding, t));
+        [100, 300, 600, 1200, 2500, 5000].forEach(t => setTimeout(stripBranding, t));
+        // MutationObserver catches late injections
+        if (viewer.shadowRoot) {
+          new MutationObserver(stripBranding).observe(viewer.shadowRoot, { childList: true, subtree: true });
+        }
       }, { once: true });
 
-      // Fallback — hide loader after 12s on very slow connections
-      setTimeout(() => { hideLoader(); stripBranding(); }, 12000);
+      // Fallback hide after 15s
+      setTimeout(hideLoader, 15000);
     }());
 
     // ─── FAQ ───
@@ -5594,6 +6072,140 @@
 
       requestAnimationFrame(animate);
     }());
+
+    // ─── CONTACT: INFINITE GRID ───
+    (function initContactGrid() {
+      const inner   = document.getElementById('contactInner');
+      const cgBase  = document.getElementById('cgBase');
+      const cgHover = document.getElementById('cgHover');
+      if (!inner || !cgBase || !cgHover) return;
+
+      let gx = 0, gy = 0;
+      let mx = -999, my = -999;
+
+      inner.addEventListener('mousemove', function(e) {
+        const r = inner.getBoundingClientRect();
+        mx = e.clientX - r.left;
+        my = e.clientY - r.top;
+      });
+
+      inner.addEventListener('mouseleave', function() {
+        mx = -999; my = -999;
+      });
+
+      function tick() {
+        gx = (gx + 0.5) % 40;
+        gy = (gy + 0.5) % 40;
+        const pos = gx + 'px ' + gy + 'px';
+        cgBase.style.backgroundPosition  = pos;
+        cgHover.style.backgroundPosition = pos;
+        const mask = 'radial-gradient(300px circle at ' + mx + 'px ' + my + 'px, black, transparent)';
+        cgHover.style.webkitMaskImage = mask;
+        cgHover.style.maskImage       = mask;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }());
+
+    // ─── LIGHTNING SPLIT COMPARISON ───
+    (function initLightningSplit() {
+      const container = document.getElementById('lightningSplit');
+      if (!container) return;
+
+      // Skip on touch/mobile – mobile CSS already handles layout
+      if (window.matchMedia('(max-width: 768px)').matches) return;
+
+      const leftPanel  = document.getElementById('lsPanelLeft');
+      const rightPanel = document.getElementById('lsPanelRight');
+      const poly1 = document.getElementById('lsPoly1');
+      const poly2 = document.getElementById('lsPoly2');
+      const poly3 = document.getElementById('lsPoly3');
+
+      const CFG = {
+        segments: 48,
+        amps:   [0.4, -0.8,  0.6],
+        freqs:  [0.7,  2.7,  3.9],
+        speeds: [-1.32, 0.42, 0.95],
+        shimmer: { speed: 4.2, freq: 8.5, amp: 0.25 },
+        easeStiffness: 6,
+        clipOffset: 25,
+      };
+
+      let targetPos  = 60;
+      let displayPos = 60;
+      let time = 0;
+      let lastTs = 0;
+
+      function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+      function tick(ts) {
+        const dt = Math.min(0.05, (ts - lastTs) / 1000);
+        lastTs = ts;
+        time += dt;
+
+        displayPos += (targetPos - displayPos) * (1 - Math.exp(-CFG.easeStiffness * dt));
+
+        const topX    = clamp(displayPos, 0, 100);
+        const bottomX = clamp(displayPos - CFG.clipOffset, 0, 100);
+        const pts = [];
+
+        for (let i = 0; i <= CFG.segments; i++) {
+          const t = i / CFG.segments;
+          const base = topX * (1 - t) + bottomX * t;
+          let off = 0;
+          for (let k = 0; k < CFG.amps.length; k++) {
+            off += CFG.amps[k] * Math.sin(2 * Math.PI * (CFG.freqs[k] * t + CFG.speeds[k] * time) + k * 1.3);
+          }
+          off += CFG.shimmer.amp * Math.sin(2 * Math.PI * (CFG.shimmer.freq * t + CFG.shimmer.speed * time));
+          pts.push({ x: clamp(base + off, 0, 100), y: t * 100 });
+        }
+
+        const polyStr = pts.map(p => p.x + ',' + p.y).join(' ');
+        poly1.setAttribute('points', polyStr);
+        poly2.setAttribute('points', polyStr);
+        poly3.setAttribute('points', polyStr);
+
+        const edgeStr = pts.map(p => p.x + '% ' + p.y + '%').join(', ');
+        // Left panel: everything to the LEFT of the wave
+        const leftClip = 'polygon(0% 0%, ' + edgeStr + ', 0% 100%)';
+        leftPanel.style.clipPath = leftClip;
+        leftPanel.style.webkitClipPath = leftClip;
+        // Right panel: everything to the RIGHT of the wave (mirror)
+        const rightClip = 'polygon(' + edgeStr + ', 100% 100%, 100% 0%)';
+        rightPanel.style.clipPath = rightClip;
+        rightPanel.style.webkitClipPath = rightClip;
+
+        requestAnimationFrame(tick);
+      }
+
+      container.addEventListener('mousemove', function(e) {
+        const rect = container.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        targetPos = x < 50 ? 110 : 20;
+        container.classList.add('ls-active');
+      });
+
+      container.addEventListener('mouseleave', function() {
+        targetPos = 60;
+        container.classList.remove('ls-active');
+      });
+
+      requestAnimationFrame(function(ts) { lastTs = ts; requestAnimationFrame(tick); });
+    }());
+
+    // ─── HERO VIDEO AUTOPLAY RECOVERY ───
+    (function() {
+      var video = document.getElementById('heroVideo');
+      if (!video) return;
+      function tryPlay() { if (video.paused) video.play().catch(function(){}); }
+      document.addEventListener('visibilitychange', function() { if (!document.hidden) tryPlay(); });
+      window.addEventListener('pageshow', tryPlay);
+      var ioV = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) tryPlay();
+      }, { threshold: 0.1 });
+      ioV.observe(video);
+    }());
+
   </script>
 
   <!-- SVG gooey filter -->

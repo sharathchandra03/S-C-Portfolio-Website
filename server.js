@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
@@ -9,7 +10,18 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIAuU40eWiud
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// Serve .splinecode with correct MIME type + range support for video textures
+app.use(express.static(__dirname, {
+  setHeaders(res, filePath) {
+    if (path.extname(filePath) === '.splinecode') {
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Accept-Ranges', 'bytes');
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+  }
+}));
 
 app.post('/submit', async (req, res) => {
   try {
