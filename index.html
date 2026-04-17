@@ -919,7 +919,8 @@
       transition: border-color .4s var(--ease), box-shadow .4s var(--ease), transform .4s var(--ease);
       cursor: default;
       position: relative;
-      overflow: hidden
+      overflow: hidden;
+      will-change: transform
     }
 
     /* Animated top accent line */
@@ -1520,7 +1521,8 @@
       border-radius: 20px;
       padding: 32px;
       position: relative;
-      transition: transform .3s var(--ease), box-shadow .3s var(--ease)
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+      will-change: transform
     }
 
     .price-card:hover {
@@ -2078,7 +2080,38 @@
     /* ─── PROCESS ─── */
     .process {
       padding: 120px 0;
-      background: var(--bg2)
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+      contain: layout style
+    }
+
+    .process-falling {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-repeat: repeat;
+      opacity: 0.65;
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 100%);
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 100%);
+      will-change: background-position;
+      transform: translateZ(0)
+    }
+
+    .process-falling-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image: radial-gradient(circle at 50% 50%, transparent 0, transparent 1.5px, var(--bg2) 1.5px);
+      background-size: 6px 6px;
+      opacity: 0.85
+    }
+
+    .process > .container {
+      position: relative;
+      z-index: 2
     }
 
     /* ─── ORBITAL TIMELINE ─── */
@@ -2095,7 +2128,10 @@
       height: 480px;
       display: flex;
       align-items: center;
-      justify-content: center
+      justify-content: center;
+      perspective: 900px;
+      transform: translateZ(0);
+      will-change: transform
     }
 
     .orbital-center {
@@ -2154,7 +2190,8 @@
       width: 0;
       height: 0;
       cursor: pointer;
-      transition: opacity .55s ease
+      transition: opacity .55s ease;
+      will-change: transform, opacity
     }
 
     .orbital-node-btn {
@@ -2341,8 +2378,8 @@
     }
 
     @keyframes orbFadeUp {
-      from { opacity: 0; transform: translateY(10px) }
-      to   { opacity: 1; transform: translateY(0) }
+      from { opacity: 0; transform: translate(-50%, -50%) translateY(14px) scale(.97) }
+      to   { opacity: 1; transform: translate(-50%, -50%) translateY(0)      scale(1)  }
     }
 
     @media (max-width: 640px) {
@@ -2585,12 +2622,76 @@
       padding: 120px 0
     }
 
-    .faq-grid {
+    .faq-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      margin-top: 60px
+      grid-template-columns: 54% 1fr;
+      gap: 52px;
+      margin-top: 60px;
+      align-items: start
     }
+
+    .faq-questions { width: 100% }
+
+    /* ── Spline 3D scene ── */
+    .faq-spline-wrap {
+      position: sticky;
+      top: 90px;
+      will-change: transform;
+      transform: translateZ(0)
+    }
+
+    .faq-spline-card {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      height: 520px;
+      overflow: hidden;
+      position: relative;
+      transform: translateZ(0)
+    }
+
+    .faq-spline-card spline-viewer {
+      width: 100%;
+      height: 100%;
+      display: block
+    }
+
+    /* Edge-fade mask so robot blends into section bg */
+    .faq-spline-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      background:
+        linear-gradient(to bottom, var(--bg2) 0%, transparent 18%, transparent 72%, var(--bg2) 100%),
+        linear-gradient(to right,  var(--bg2) 0%, transparent 14%),
+        linear-gradient(to left,   var(--bg2) 0%, transparent 14%)
+    }
+
+    /* Loading spinner */
+    .faq-spline-loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      background: var(--bg2);
+      transition: opacity .5s ease
+    }
+
+    .faq-spline-loader-ring {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin .8s linear infinite
+    }
+
+    @keyframes spin { to { transform: rotate(360deg) } }
+
 
     .faq-item {
       border-bottom: 1px solid var(--border);
@@ -3053,12 +3154,20 @@
       }
 
       .ai-grid,
-      .faq-grid,
       .contact-inner,
       .footer-inner {
         grid-template-columns: 1fr;
         gap: 40px
       }
+
+      .faq-layout {
+        grid-template-columns: 1fr;
+        gap: 40px
+      }
+
+      .faq-spline-wrap { position: static }
+
+      .faq-spline-card { height: 360px }
 
       .team-grid,
       .testi-grid,
@@ -3268,6 +3377,7 @@
       transition-delay: .3s
     }
   </style>
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 </head>
 
 <body>
@@ -3955,6 +4065,8 @@
 
   <!-- ─── PROCESS ─── -->
   <section class="process" id="process">
+    <div class="process-falling" id="processFalling"></div>
+    <div class="process-falling-overlay"></div>
     <div class="container">
       <div style="text-align:center">
         <div class="section-label" style="justify-content:center">How We Work</div>
@@ -4228,82 +4340,65 @@
     <div class="container">
       <div class="section-label">FAQ</div>
       <h2 class="section-title reveal">Questions We <span style="color:var(--orange)">Always Get</span></h2>
-      <div class="faq-grid">
-        <div>
+
+      <div class="faq-layout">
+
+        <!-- FAQ accordion — single column, all 8 items -->
+        <div class="faq-questions">
           <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>How long before I see results?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">SEO results typically show in 2 - 4 months. Paid ads can generate leads from Day 1.
-              Social
-              media and content marketing show compounding results over 3 - 6 months. We set realistic
-              expectations during
-              your onboarding call.</div>
+            <div class="faq-q"><h4>How long before I see results?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">SEO results typically show in 2–4 months. Paid ads can generate leads from Day 1. Social media and content marketing show compounding results over 3–6 months. We set realistic expectations during your onboarding call.</div>
           </div>
           <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>Do you have EMI options?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">Yes! We offer 0% interest EMI plans for all our packages starting at just ₹1,083/month.
-              We partner with leading banks and payment platforms. Ask our team for details during your consultation.
-            </div>
+            <div class="faq-q"><h4>Do you have EMI options?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">Yes! We offer 0% interest EMI plans for all our packages starting at just ₹1,083/month. We partner with leading banks and payment platforms. Ask our team for details during your consultation.</div>
           </div>
           <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>Is ad spend included in your pricing?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">No · our pricing covers management fees, strategy, and execution. Your ad spend
-              (Google/Meta budget) is separate and paid directly to the platforms. We recommend a minimum ad budget
-              based on your goals.</div>
+            <div class="faq-q"><h4>Is ad spend included in your pricing?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">No · our pricing covers management fees, strategy, and execution. Your ad spend (Google/Meta budget) is separate and paid directly to the platforms. We recommend a minimum ad budget based on your goals.</div>
           </div>
           <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>Do you work with businesses outside Hyderabad?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">Absolutely. While we're headquartered in Hyderabad, we serve clients across Bangalore,
-              Hyderabad, Tier 2 Indian cities, and have experience with pan-India and international campaigns.</div>
+            <div class="faq-q"><h4>Do you work with businesses outside Hyderabad?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">Absolutely. While we're headquartered in Hyderabad, we serve clients across Bangalore, Tier 2 Indian cities, and have experience with pan-India and international campaigns.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q"><h4>What makes S&amp;C different from other agencies?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">We're lean, fast, and obsessed with results. No bloated teams, no account-manager middlemen. You work directly with the strategists executing your campaigns. Plus, our AI automation capabilities are ahead of 95% of local agencies.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q"><h4>Can I get a free audit?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">Yes! We offer a complimentary 30-minute digital audit for new prospects. We'll analyse your current SEO, social, and ad performance and share a growth roadmap · no strings attached.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q"><h4>What industries do you specialise in?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">We've worked with real estate, healthcare, education, e-commerce, B2B SaaS, restaurants, and professional services. Our data-driven approach adapts to any industry and market.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q"><h4>What is the minimum contract period?</h4><div class="faq-icon">+</div></div>
+            <div class="faq-a">We recommend a minimum 3-month engagement to see meaningful results, especially for SEO. For Paid Ads and Automation projects, we offer monthly rolling contracts after an initial setup phase.</div>
           </div>
         </div>
-        <div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>What makes S&C different from other agencies?</h4>
-              <div class="faq-icon">+</div>
+
+        <!-- 3D Spline card — sticky on the right -->
+        <div class="faq-spline-wrap">
+          <div class="faq-spline-card">
+
+            <!-- Loading spinner -->
+            <div class="faq-spline-loader" id="faqSplineLoader">
+              <div class="faq-spline-loader-ring"></div>
             </div>
-            <div class="faq-a">We're lean, fast, and obsessed with results. No bloated teams, no account-manager
-              middlemen. You work directly with the strategists executing your campaigns. Plus, our AI automation
-              capabilities are ahead of 95% of local agencies.</div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>Can I get a free audit?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">Yes! We offer a complimentary 30-minute digital audit for new prospects. We'll analyze
-              your current SEO, social, and ad performance and share a growth roadmap · no strings attached.</div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>What industries do you specialise in?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">We've worked with real estate, healthcare, education, e-commerce, B2B SaaS, restaurants,
-              and professional services. Our data-driven approach adapts to any industry and market.</div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              <h4>What is the minimum contract period?</h4>
-              <div class="faq-icon">+</div>
-            </div>
-            <div class="faq-a">We recommend a minimum 3-month engagement to see meaningful results, especially for SEO.
-              However, for Paid Ads and Automation projects, we offer monthly rolling contracts after an initial setup
-              phase.</div>
+
+            <!-- Spline 3D scene -->
+            <spline-viewer
+              url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              id="faqSplineViewer"
+              style="width:100%;height:100%;display:block">
+            </spline-viewer>
+
+
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -4724,9 +4819,10 @@
         activeId = id;
         autoRotate = false;
 
-        // Snap active node to top (270° = 12 o'clock)
+        // Snap active node to top (270° = 12 o'clock) and apply immediately
         const idx = steps.findIndex(s => s.id === id);
         rotAngle = 270 - (idx / steps.length) * 360;
+        updatePositions(); // flush positions synchronously so nodes are in place before card appears
 
         const step = steps.find(s => s.id === id);
 
@@ -4784,30 +4880,93 @@
       function updatePositions() {
         const total = steps.length;
         const r = getRadius();
+        const activeStep = activeId ? steps.find(s => s.id === activeId) : null;
         steps.forEach((step, i) => {
           const angle = ((i / total) * 360 + rotAngle) % 360;
           const rad = (angle * Math.PI) / 180;
-          const x = r * Math.cos(rad);
+          const cosA = Math.cos(rad);
+          const x = r * cosA;
           const y = r * Math.sin(rad);
+          // Use translateZ for GPU depth ordering — no z-index writes in hot loop
+          const tz = activeId === step.id ? 80 : Math.round(cosA * 50);
           const baseOp = Math.max(0.4, 0.4 + 0.6 * ((1 + Math.sin(rad)) / 2));
           const opacity = activeId === null ? baseOp
-            : (activeId === step.id || steps.find(s => s.id === activeId)?.relatedIds.includes(step.id)) ? 1 : 0.22;
-          const zIdx = activeId === step.id ? 200 : Math.round(60 + 50 * Math.cos(rad));
+            : (activeId === step.id || activeStep?.relatedIds.includes(step.id)) ? 1 : 0.22;
           const el = nodeEls[step.id].wrap;
-          el.style.transform = `translate(${x}px, ${y}px)`;
+          el.style.transform = `translate(${x}px, ${y}px) translateZ(${tz}px)`;
           el.style.opacity = opacity;
-          el.style.zIndex = zIdx;
         });
       }
 
+      let orbVisible = false;
+      let orbRafId = null;
+      const orbObserver = new IntersectionObserver(entries => {
+        orbVisible = entries[0].isIntersecting;
+        if (orbVisible && !orbRafId) orbRafId = requestAnimationFrame(animate);
+      }, { threshold: 0 });
+      orbObserver.observe(document.getElementById('orbitalCanvas'));
+
       function animate() {
+        if (!orbVisible) { orbRafId = null; return; }
         if (autoRotate) rotAngle = (rotAngle + 0.22) % 360;
         updatePositions();
-        requestAnimationFrame(animate);
+        orbRafId = requestAnimationFrame(animate);
       }
-      animate();
+      orbRafId = requestAnimationFrame(animate);
     }());
 
+
+    // ─── PROCESS FALLING PATTERN ───
+    (function () {
+      const el = document.getElementById('processFalling');
+      if (!el) return;
+
+      const C = 'rgba(255,92,26,0.45)'; // subtle orange brand color
+
+      // Each row: [Y in tile, tile-height] — 12 rows matching the component
+      const rows = [
+        [235,235],[252,252],[150,150],[253,253],[204,204],
+        [134,134],[179,179],[299,299],[215,215],[281,281],
+        [158,158],[210,210]
+      ];
+
+      // 3 gradients per row: left line, right line, center dot
+      const images = rows.flatMap(([y]) => [
+        `radial-gradient(4px 100px at 0px ${y}px, ${C}, transparent)`,
+        `radial-gradient(4px 100px at 300px ${y}px, ${C}, transparent)`,
+        `radial-gradient(1.5px 1.5px at 150px ${(y/2).toFixed(1)}px, ${C} 100%, transparent 150%)`
+      ]);
+
+      const sizes = rows.flatMap(([y, h]) => [
+        `300px ${h}px`, `300px ${h}px`, `300px ${h}px`
+      ]);
+
+      // Start / end positions from the original component (drives the falling motion)
+      const start = '0px 220px,3px 220px,151.5px 337.5px,25px 24px,28px 24px,176.5px 150px,50px 16px,53px 16px,201.5px 91px,75px 224px,78px 224px,226.5px 230.5px,100px 19px,103px 19px,251.5px 121px,125px 120px,128px 120px,276.5px 187px,150px 31px,153px 31px,301.5px 120.5px,175px 235px,178px 235px,326.5px 384.5px,200px 121px,203px 121px,351.5px 228.5px,225px 224px,228px 224px,376.5px 364.5px,250px 26px,253px 26px,401.5px 105px,275px 75px,278px 75px,426.5px 180px';
+      const end   = '0px 6800px,3px 6800px,151.5px 6917.5px,25px 13632px,28px 13632px,176.5px 13758px,50px 5416px,53px 5416px,201.5px 5491px,75px 17175px,78px 17175px,226.5px 17301.5px,100px 5119px,103px 5119px,251.5px 5221px,125px 8428px,128px 8428px,276.5px 8495px,150px 9876px,153px 9876px,301.5px 9965.5px,175px 13391px,178px 13391px,326.5px 13540.5px,200px 14741px,203px 14741px,351.5px 14848.5px,225px 18770px,228px 18770px,376.5px 18910.5px,250px 5082px,253px 5082px,401.5px 5161px,275px 6375px,278px 6375px,426.5px 6480px';
+
+      // Inject keyframes + apply styles via a <style> tag
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fallingPattern {
+          from { background-position: ${start} }
+          to   { background-position: ${end}   }
+        }
+      `;
+      document.head.appendChild(style);
+
+      el.style.backgroundImage    = images.join(', ');
+      el.style.backgroundSize     = sizes.join(', ');
+      el.style.backgroundRepeat   = 'repeat';
+      el.style.animation          = 'fallingPattern 150s linear infinite';
+      el.style.backgroundColor    = 'transparent';
+
+      // Pause when off-screen
+      const obs = new IntersectionObserver(entries => {
+        el.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
+      }, { threshold: 0 });
+      obs.observe(el.closest('section'));
+    }());
 
     // Marquee track hover pause
     const marqueeTrack = document.getElementById('marqueeTrack');
@@ -4823,6 +4982,18 @@
       const navInner = document.querySelector('.nav-inner');
       if (!limelight || !navInner) return;
 
+      // Pre-cache section offsets (recomputed only on resize)
+      const sectionIds = ['services', 'why', 'pricing', 'automation', 'team', 'faq', 'contact'];
+      let sectionTops = [];
+      function cacheSectionTops() {
+        sectionTops = sectionIds.map(id => {
+          const el = document.getElementById(id);
+          return el ? { id, top: el.offsetTop } : null;
+        }).filter(Boolean);
+      }
+      cacheSectionTops();
+      window.addEventListener('resize', cacheSectionTops, { passive: true });
+
       function moveLimelight(linkEl) {
         const navRect = navInner.getBoundingClientRect();
         const linkRect = linkEl.getBoundingClientRect();
@@ -4833,30 +5004,39 @@
         linkEl.classList.add('nav-active');
       }
 
+      // Click lock — prevents scroll from overriding clicked link during Lenis scroll
+      let clickLockTimer = null;
+      let clickLocked = false;
+
       navLinks.forEach(a => {
-        a.addEventListener('click', () => moveLimelight(a));
+        a.addEventListener('click', () => {
+          moveLimelight(a);
+          clickLocked = true;
+          clearTimeout(clickLockTimer);
+          clickLockTimer = setTimeout(() => { clickLocked = false; }, 1400);
+        });
       });
 
-      // Track active section on scroll
-      const sectionIds = ['services', 'why', 'pricing', 'automation', 'team', 'faq', 'contact'];
-      function getActiveSection() {
-        const offset = window.scrollY + 120;
-        for (let i = sectionIds.length - 1; i >= 0; i--) {
-          const el = document.getElementById(sectionIds[i]);
-          if (el && el.offsetTop <= offset) return sectionIds[i];
-        }
-        return null;
-      }
-
+      // Throttled scroll handler — runs at most once per rAF
+      let scrollRafPending = false;
       window.addEventListener('scroll', () => {
-        const active = getActiveSection();
-        if (active) {
-          const link = document.querySelector(`.nav-links a[href="#${active}"]`);
-          if (link) moveLimelight(link);
-        } else {
-          limelight.style.opacity = '0';
-          navLinks.forEach(a => a.classList.remove('nav-active'));
-        }
+        if (scrollRafPending || clickLocked) return;
+        scrollRafPending = true;
+        requestAnimationFrame(() => {
+          scrollRafPending = false;
+          const offset = window.scrollY + 130;
+          let active = null;
+          for (let i = sectionTops.length - 1; i >= 0; i--) {
+            if (sectionTops[i].top <= offset) { active = sectionTops[i].id; break; }
+          }
+          if (active) {
+            const link = document.querySelector(`.nav-links a[href="#${active}"]`);
+            if (link) moveLimelight(link);
+          } else {
+            limelight.style.opacity = '0';
+            navLinks.forEach(a => a.classList.remove('nav-active'));
+          }
+        });
       }, { passive: true });
     }());
 
@@ -4886,9 +5066,18 @@
     }());
 
     // ─── NAV SCROLL EFFECT ───
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
-    }, { passive: true });
+    (function() {
+      const navbar = document.getElementById('navbar');
+      let navRafPending = false;
+      window.addEventListener('scroll', () => {
+        if (navRafPending) return;
+        navRafPending = true;
+        requestAnimationFrame(() => {
+          navRafPending = false;
+          navbar.classList.toggle('scrolled', scrollY > 60);
+        });
+      }, { passive: true });
+    }());
 
     // ─── MOBILE MENU ───
     function toggleMobile() {
@@ -4936,28 +5125,40 @@
         sparks.push(s);
       }
 
+      let sparksVisible = false;
+      const sparksObserver = new IntersectionObserver(entries => {
+        sparksVisible = entries[0].isIntersecting;
+        if (sparksVisible) requestAnimationFrame(animateSparks);
+      }, { threshold: 0 });
+      sparksObserver.observe(canvas);
+
+      let sparksRafId = null;
       function animateSparks() {
+        if (!sparksVisible) { sparksRafId = null; return; }
         ctx.clearRect(0, 0, W, H);
-        sparks.forEach((s, i) => {
-          s.life++;
-          const t = s.life / s.maxLife;
-          s.alpha = t < 0.3 ? (t / 0.3) * s.maxAlpha : t > 0.7 ? ((1 - t) / 0.3) * s.maxAlpha : s.maxAlpha;
-          s.x += s.vx;
-          s.y += s.vy;
-          ctx.save();
-          ctx.globalAlpha = s.alpha;
-          ctx.fillStyle = s.color;
-          ctx.shadowColor = s.color;
-          ctx.shadowBlur = s.r * 4;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-          if (s.life >= s.maxLife) sparks[i] = createSpark();
+        // Draw orange sparks first, then white (avoid repeated shadow switches)
+        ['#FF5C1A', '#fff'].forEach(col => {
+          ctx.fillStyle = col;
+          ctx.shadowColor = col;
+          sparks.forEach((s, i) => {
+            if (s.color !== col) return;
+            s.life++;
+            const t = s.life / s.maxLife;
+            s.alpha = t < 0.3 ? (t / 0.3) * s.maxAlpha : t > 0.7 ? ((1 - t) / 0.3) * s.maxAlpha : s.maxAlpha;
+            s.x += s.vx;
+            s.y += s.vy;
+            ctx.globalAlpha = s.alpha;
+            ctx.shadowBlur = s.r * 4;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fill();
+            if (s.life >= s.maxLife) sparks[i] = createSpark();
+          });
         });
-        requestAnimationFrame(animateSparks);
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+        sparksRafId = requestAnimationFrame(animateSparks);
       }
-      animateSparks();
 
       // -- VCR heading reveal --
       const heading = document.getElementById('priceHeading');
@@ -5050,6 +5251,47 @@
       };
     })();
 
+    // ─── SPLINE: hide loader + strip branding ───
+    (function() {
+      const viewer = document.getElementById('faqSplineViewer');
+      const loader = document.getElementById('faqSplineLoader');
+      if (!viewer) return;
+
+      function stripBranding() {
+        const sr = viewer.shadowRoot;
+        if (!sr) return;
+        // Inject a style into the shadow root to nuke any branding elements
+        const s = document.createElement('style');
+        s.textContent = `
+          #logo, .logo, [class*="logo"], [id*="logo"],
+          a[href*="spline"], [class*="watermark"], [class*="brand"],
+          canvas + div, div[style*="position: absolute"][style*="bottom"],
+          div[style*="z-index: 10000"] { display: none !important; }
+        `;
+        sr.appendChild(s);
+      }
+
+      function onLoad() {
+        // Hide loader
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => { loader.style.display = 'none'; }, 500);
+        }
+        stripBranding();
+        // Re-run after short delay in case branding mounts async
+        setTimeout(stripBranding, 800);
+        setTimeout(stripBranding, 2000);
+      }
+
+      viewer.addEventListener('load', onLoad);
+
+      // Fallback: attempt branding strip even without load event
+      setTimeout(() => {
+        if (loader) loader.style.display = 'none';
+        stripBranding();
+      }, 6000);
+    }());
+
     // ─── FAQ ───
     function toggleFaq(el) {
       const wasOpen = el.classList.contains('open');
@@ -5117,47 +5359,51 @@
     document.querySelectorAll('.service-card').forEach(card => {
       const spotlight = card.querySelector('.service-spotlight');
       if (!spotlight) return;
+      let spotPending = false;
       card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        spotlight.style.left = (e.clientX - rect.left) + 'px';
-        spotlight.style.top  = (e.clientY - rect.top)  + 'px';
+        if (spotPending) return;
+        spotPending = true;
+        requestAnimationFrame(() => {
+          spotPending = false;
+          const rect = card.getBoundingClientRect();
+          spotlight.style.left = (e.clientX - rect.left) + 'px';
+          spotlight.style.top  = (e.clientY - rect.top)  + 'px';
+        });
       });
     });
 
     // ─── 3D CARD TILT ───
     document.querySelectorAll('.service-card, .price-card, .team-card').forEach(card => {
+      let tiltPending = false;
       card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        gsap.to(card, {
-          rotateY: x * 8,
-          rotateX: -y * 8,
-          translateY: -8,
-          duration: 0.4,
-          ease: 'power2.out',
-          transformPerspective: 1000
+        if (tiltPending) return;
+        tiltPending = true;
+        requestAnimationFrame(() => {
+          tiltPending = false;
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          gsap.to(card, { rotateY: x * 8, rotateX: -y * 8, translateY: -8, duration: 0.4, ease: 'power2.out', transformPerspective: 1000 });
         });
       });
       card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-          rotateY: 0,
-          rotateX: 0,
-          translateY: 0,
-          duration: 0.6,
-          ease: 'power3.out',
-          transformPerspective: 1000
-        });
+        gsap.to(card, { rotateY: 0, rotateX: 0, translateY: 0, duration: 0.6, ease: 'power3.out', transformPerspective: 1000 });
       });
     });
 
     // ─── MAGNETIC CTA BUTTONS ───
     document.querySelectorAll('.btn-primary, .nav-cta').forEach(btn => {
+      let magPending = false;
       btn.addEventListener('mousemove', e => {
-        const r = btn.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width / 2) * 0.3;
-        const y = (e.clientY - r.top - r.height / 2) * 0.3;
-        gsap.to(btn, { x, y, duration: 0.4, ease: 'power2.out' });
+        if (magPending) return;
+        magPending = true;
+        requestAnimationFrame(() => {
+          magPending = false;
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.3;
+          const y = (e.clientY - r.top - r.height / 2) * 0.3;
+          gsap.to(btn, { x, y, duration: 0.4, ease: 'power2.out' });
+        });
       });
       btn.addEventListener('mouseleave', () => {
         gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' });
