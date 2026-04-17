@@ -50,15 +50,54 @@
   }
   </script>
 
+  <!-- Theme & geo -->
+  <meta name="theme-color" content="#07070F">
+  <meta name="author" content="S&C Digital Agency">
+  <meta name="geo.region" content="IN-TG">
+  <meta name="geo.placename" content="Hyderabad">
+  <meta name="geo.position" content="17.3850;78.4867">
+  <meta name="ICBM" content="17.3850, 78.4867">
+
+  <!-- FAQ Rich Snippet -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"How long before I see results?","acceptedAnswer":{"@type":"Answer","text":"SEO results typically show in 2-4 months. Paid ads can generate leads from Day 1. Social media and content marketing show compounding results over 3-6 months."}},
+      {"@type":"Question","name":"Do you have EMI options?","acceptedAnswer":{"@type":"Answer","text":"Yes! We offer 0% interest EMI plans for all packages starting at just ₹1,083/month, partnering with leading banks and payment platforms."}},
+      {"@type":"Question","name":"Is ad spend included in your pricing?","acceptedAnswer":{"@type":"Answer","text":"No. Our pricing covers management fees, strategy, and execution. Your ad spend (Google/Meta budget) is separate and paid directly to the platforms."}},
+      {"@type":"Question","name":"What makes S&C different from other agencies?","acceptedAnswer":{"@type":"Answer","text":"We are lean, fast, and obsessed with results. No bloated teams or middlemen. You work directly with the strategists executing your campaigns, and our AI automation capabilities are ahead of 95% of local agencies."}},
+      {"@type":"Question","name":"Can I get a free audit?","acceptedAnswer":{"@type":"Answer","text":"Yes! We offer a complimentary 30-minute digital audit for new prospects covering SEO, social, and ad performance with a growth roadmap — no strings attached."}},
+      {"@type":"Question","name":"What is the minimum contract period?","acceptedAnswer":{"@type":"Answer","text":"We recommend a minimum 3-month engagement for SEO. For Paid Ads and Automation projects, we offer monthly rolling contracts after an initial setup phase."}}
+    ]
+  }
+  </script>
+
+  <!-- Resource hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://prod.spline.design">
+
+  <!-- Preload above-fold logo -->
+  <link rel="preload" as="image" href="photos/Logo1.jpg" fetchpriority="high">
+
+  <!-- Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <!-- Spline viewer — load immediately so scene is ready before user reaches FAQ -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
+  <!-- GSAP + Lenis — load async, execute before body scripts via defer order -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" crossorigin="anonymous"></script>
 
   <style>
     :root {
@@ -2082,8 +2121,7 @@
       padding: 120px 0;
       background: var(--bg2);
       position: relative;
-      overflow: hidden;
-      contain: layout style
+      overflow: hidden
     }
 
     .process-falling {
@@ -2092,11 +2130,9 @@
       pointer-events: none;
       z-index: 0;
       background-repeat: repeat;
-      opacity: 0.65;
+      opacity: 0.55;
       -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 100%);
-      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 100%);
-      will-change: background-position;
-      transform: translateZ(0)
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 100%)
     }
 
     .process-falling-overlay {
@@ -2128,10 +2164,7 @@
       height: 480px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      perspective: 900px;
-      transform: translateZ(0);
-      will-change: transform
+      justify-content: center
     }
 
     .orbital-center {
@@ -2388,7 +2421,9 @@
 
     /* ─── TEAM ─── */
     .team {
-      padding: 120px 0
+      padding: 120px 0;
+      content-visibility: auto;
+      contain-intrinsic-size: 0 600px
     }
 
     .team-grid {
@@ -2619,7 +2654,9 @@
 
     /* ─── FAQ ─── */
     .faq {
-      padding: 120px 0
+      padding: 120px 0;
+      content-visibility: auto;
+      contain-intrinsic-size: 0 800px
     }
 
     .faq-layout {
@@ -2669,28 +2706,40 @@
         linear-gradient(to left,   var(--bg2) 0%, transparent 14%)
     }
 
-    /* Loading spinner */
+    /* Loading placeholder */
     .faq-spline-loader {
       position: absolute;
       inset: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 16px;
       z-index: 5;
       background: var(--bg2);
-      transition: opacity .5s ease
+      transition: opacity .6s ease
     }
 
     .faq-spline-loader-ring {
-      width: 36px;
-      height: 36px;
-      border: 2px solid var(--border2);
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--border);
       border-top-color: var(--orange);
       border-radius: 50%;
-      animation: spin .8s linear infinite
+      animation: spin .9s linear infinite
     }
 
-    @keyframes spin { to { transform: rotate(360deg) } }
+    .faq-spline-loader-text {
+      font-size: .72rem;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-family: var(--font-a);
+      animation: fadeText 1.8s ease-in-out infinite
+    }
+
+    @keyframes spin     { to { transform: rotate(360deg) } }
+    @keyframes fadeText { 0%,100% { opacity:.3 } 50% { opacity:.9 } }
 
 
     .faq-item {
@@ -3377,7 +3426,6 @@
       transition-delay: .3s
     }
   </style>
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 </head>
 
 <body>
@@ -3406,7 +3454,7 @@
     <div class="container">
       <div class="nav-inner">
         <div id="navLimelight"></div>
-        <a href="#home" class="logo" id="logoLink" title="Back to top"><img src="photos/Logo1.jpg" alt="S&C Digital" class="logo-img"><span class="logo-name">S<em>&amp;</em>C Digital</span></a>
+        <a href="#home" class="logo" id="logoLink" title="Back to top"><img src="photos/Logo1.jpg" alt="S&C Digital" class="logo-img" fetchpriority="high" decoding="async" width="40" height="40"><span class="logo-name">S<em>&amp;</em>C Digital</span></a>
         <ul class="nav-links">
           <li><a href="#services">Services</a></li>
           <li><a href="#why">Why Us</a></li>
@@ -3448,7 +3496,7 @@
   <!-- ─── HERO ─── -->
   <section class="hero" id="home">
     <div class="hero-bg">
-      <video class="hero-video" autoplay muted loop playsinline>
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata">
         <source src="photos/Guiding brands video.mp4" type="video/mp4">
       </video>
     </div>
@@ -4383,12 +4431,13 @@
         <div class="faq-spline-wrap">
           <div class="faq-spline-card">
 
-            <!-- Loading spinner -->
+            <!-- Loading placeholder -->
             <div class="faq-spline-loader" id="faqSplineLoader">
               <div class="faq-spline-loader-ring"></div>
+              <span class="faq-spline-loader-text">Loading 3D Scene</span>
             </div>
 
-            <!-- Spline 3D scene -->
+            <!-- Spline 3D scene — loads immediately in background -->
             <spline-viewer
               url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               id="faqSplineViewer"
@@ -4521,7 +4570,7 @@
     <div class="container">
       <div class="footer-inner">
         <div class="footer-brand">
-          <div class="logo"><img src="photos/Logo1.jpg" alt="S&C Digital" class="logo-img"><span class="logo-name">S<em>&amp;</em>C Digital</span></div>
+          <div class="logo"><img src="photos/Logo1.jpg" alt="S&C Digital" class="logo-img" loading="lazy" decoding="async" width="40" height="40"><span class="logo-name">S<em>&amp;</em>C Digital</span></div>
           <p>Hyderabad's premier digital growth agency. We combine strategy, creativity, and AI automation to grow
             businesses that mean business.</p>
           <div style="margin-top:20px"><span class="location-badge">Hyderabad, Telangana</span></div>
@@ -4883,18 +4932,15 @@
         const activeStep = activeId ? steps.find(s => s.id === activeId) : null;
         steps.forEach((step, i) => {
           const angle = ((i / total) * 360 + rotAngle) % 360;
-          const rad = (angle * Math.PI) / 180;
-          const cosA = Math.cos(rad);
-          const x = r * cosA;
+          const rad   = (angle * Math.PI) / 180;
+          const x = r * Math.cos(rad);
           const y = r * Math.sin(rad);
-          // Use translateZ for GPU depth ordering — no z-index writes in hot loop
-          const tz = activeId === step.id ? 80 : Math.round(cosA * 50);
           const baseOp = Math.max(0.4, 0.4 + 0.6 * ((1 + Math.sin(rad)) / 2));
           const opacity = activeId === null ? baseOp
             : (activeId === step.id || activeStep?.relatedIds.includes(step.id)) ? 1 : 0.22;
           const el = nodeEls[step.id].wrap;
-          el.style.transform = `translate(${x}px, ${y}px) translateZ(${tz}px)`;
-          el.style.opacity = opacity;
+          el.style.transform = `translate(${x}px, ${y}px)`;
+          el.style.opacity   = opacity;
         });
       }
 
@@ -4966,6 +5012,20 @@
         el.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
       }, { threshold: 0 });
       obs.observe(el.closest('section'));
+    }());
+
+    // ─── PAUSE FALLING PATTERN DURING SCROLL (eliminates jank) ───
+    (function () {
+      const falling = document.getElementById('processFalling');
+      if (!falling) return;
+      let resumeTimer = null;
+      window.addEventListener('scroll', () => {
+        falling.style.animationPlayState = 'paused';
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => {
+          falling.style.animationPlayState = 'running';
+        }, 180);
+      }, { passive: true });
     }());
 
     // Marquee track hover pause
@@ -5251,45 +5311,40 @@
       };
     })();
 
-    // ─── SPLINE: hide loader + strip branding ───
-    (function() {
+    // ─── SPLINE: hide loader + strip branding when scene is ready ───
+    (function () {
       const viewer = document.getElementById('faqSplineViewer');
       const loader = document.getElementById('faqSplineLoader');
       if (!viewer) return;
 
       function stripBranding() {
         const sr = viewer.shadowRoot;
-        if (!sr) return;
-        // Inject a style into the shadow root to nuke any branding elements
+        if (!sr || sr.querySelector('#snc-hide-brand')) return;
         const s = document.createElement('style');
+        s.id = 'snc-hide-brand';
         s.textContent = `
-          #logo, .logo, [class*="logo"], [id*="logo"],
-          a[href*="spline"], [class*="watermark"], [class*="brand"],
-          canvas + div, div[style*="position: absolute"][style*="bottom"],
-          div[style*="z-index: 10000"] { display: none !important; }
+          #logo,.logo,[class*="logo"],[id*="logo"],
+          a[href*="spline"],[class*="watermark"],[class*="brand"],
+          div[style*="z-index: 10000"],div[style*="z-index:10000"]
+          { display:none !important }
         `;
         sr.appendChild(s);
       }
 
-      function onLoad() {
-        // Hide loader
-        if (loader) {
-          loader.style.opacity = '0';
-          setTimeout(() => { loader.style.display = 'none'; }, 500);
-        }
-        stripBranding();
-        // Re-run after short delay in case branding mounts async
-        setTimeout(stripBranding, 800);
-        setTimeout(stripBranding, 2000);
+      function hideLoader() {
+        if (!loader) return;
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.display = 'none'; }, 600);
       }
 
-      viewer.addEventListener('load', onLoad);
-
-      // Fallback: attempt branding strip even without load event
-      setTimeout(() => {
-        if (loader) loader.style.display = 'none';
+      viewer.addEventListener('load', () => {
+        hideLoader();
         stripBranding();
-      }, 6000);
+        [500, 1500, 3000].forEach(t => setTimeout(stripBranding, t));
+      }, { once: true });
+
+      // Fallback — hide loader after 12s on very slow connections
+      setTimeout(() => { hideLoader(); stripBranding(); }, 12000);
     }());
 
     // ─── FAQ ───
