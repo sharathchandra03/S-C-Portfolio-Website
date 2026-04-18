@@ -68,7 +68,7 @@
       {"@type":"Question","name":"Do you have EMI options?","acceptedAnswer":{"@type":"Answer","text":"Yes! We offer 0% interest EMI plans for all packages starting at just ₹1,083/month, partnering with leading banks and payment platforms."}},
       {"@type":"Question","name":"Is ad spend included in your pricing?","acceptedAnswer":{"@type":"Answer","text":"No. Our pricing covers management fees, strategy, and execution. Your ad spend (Google/Meta budget) is separate and paid directly to the platforms."}},
       {"@type":"Question","name":"What makes S&C different from other agencies?","acceptedAnswer":{"@type":"Answer","text":"We are lean, fast, and obsessed with results. No bloated teams or middlemen. You work directly with the strategists executing your campaigns, and our AI automation capabilities are ahead of 95% of local agencies."}},
-      {"@type":"Question","name":"Can I get a free audit?","acceptedAnswer":{"@type":"Answer","text":"Yes! We offer a complimentary 30-minute digital audit for new prospects covering SEO, social, and ad performance with a growth roadmap — no strings attached."}},
+      {"@type":"Question","name":"Can I get a free audit?","acceptedAnswer":{"@type":"Answer","text":"Yes! We offer a complimentary 30-minute digital audit for new prospects covering SEO, social, and ad performance with a growth roadmap - no strings attached."}},
       {"@type":"Question","name":"What is the minimum contract period?","acceptedAnswer":{"@type":"Answer","text":"We recommend a minimum 3-month engagement for SEO. For Paid Ads and Automation projects, we offer monthly rolling contracts after an initial setup phase."}}
     ]
   }
@@ -93,10 +93,10 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Spline viewer — module scripts are deferred by spec, registers custom element early -->
+  <!-- Spline viewer - module scripts are deferred by spec, registers custom element early -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 
-  <!-- GSAP + Lenis — load async, execute before body scripts via defer order -->
+  <!-- GSAP + Lenis - load async, execute before body scripts via defer order -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js" crossorigin="anonymous"></script>
@@ -763,74 +763,95 @@
             <p style="color:var(--text2);line-height:1.7;margin-bottom:12px;font-size:.97rem" class="reveal">Stop losing
               leads at midnight. Our AI-powered WhatsApp and chatbot automation systems respond, qualify, and nurture
               leads 24/7 · even while you sleep.</p>
-            <div class="ai-features">
-              <div class="ai-feat-card reveal">
-                <div class="icon">💬</div>
-                <h3>WhatsApp Automation</h3>
-                <p>Instant replies, lead qualification, and booking confirmations via WhatsApp Business API.</p>
+          </div>
+          <div class="ai-right-col">
+            <div class="ai-visual-phones">
+              <div class="phone-mock">
+                <div class="phone-header">
+                  <div class="phone-avatar" style="background:rgba(34,197,94,0.15);font-size:.7rem">🏢</div>
+                  <div style="font-size:.72rem">
+                    <div style="font-weight:600">S&C Bot</div>
+                    <div style="color:#22c55e;font-size:.65rem">● Online</div>
+                  </div>
+                </div>
+                <div class="phone-body">
+                  <div class="msg in">Hi! I want to know about your pricing.</div>
+                  <div class="msg bot">Hello! 👋 I'm the S&C Digital assistant. Our plans start from ₹12,999/mo. Want me to send the full details?</div>
+                  <div class="msg in">Yes please!</div>
+                  <div class="typing"><span></span><span></span><span></span></div>
+                </div>
               </div>
-              <div class="ai-feat-card reveal reveal-delay-1">
-                <div class="icon">🤖</div>
-                <h3>AI Chatbot</h3>
-                <p>Website chatbots trained on your business that convert visitors to leads automatically.</p>
+              <div class="phone-mock main">
+                <div class="phone-header">
+                  <div class="phone-avatar" style="background:rgba(255,92,26,0.15)">🚀</div>
+                  <div style="font-size:.72rem">
+                    <div style="font-weight:600">Lead Alerts</div>
+                    <div style="color:var(--orange);font-size:.65rem">Auto-sending</div>
+                  </div>
+                </div>
+                <div class="phone-body">
+                  <div class="msg bot">🎯 New Lead: Ravi Kumar<br>Service: SEO Package<br>Budget: ₹20K+</div>
+                  <div class="msg out">Following up! ✅</div>
+                  <div class="msg bot">📊 Campaign Update: Your Google Ads hit 4.8× ROAS today!</div>
+                  <div class="msg bot">✅ 12 new leads captured this afternoon. Detailed report sent to email.</div>
+                </div>
               </div>
-              <div class="ai-feat-card reveal reveal-delay-2">
-                <div class="icon">🔄</div>
-                <h3>CRM Workflows</h3>
-                <p>Automated lead follow-ups, pipeline updates, and customer onboarding flows.</p>
-              </div>
-              <div class="ai-feat-card reveal">
-                <div class="icon">📲</div>
-                <h3>Broadcast Campaigns</h3>
-                <p>Targeted WhatsApp broadcast campaigns that get 90%+ open rates.</p>
+              <div class="phone-mock">
+                <div class="phone-header">
+                  <div class="phone-avatar" style="background:rgba(124,58,237,0.15)">📅</div>
+                  <div style="font-size:.72rem">
+                    <div style="font-weight:600">Booking Bot</div>
+                    <div style="color:var(--purple);font-size:.65rem">● Active</div>
+                  </div>
+                </div>
+                <div class="phone-body">
+                  <div class="msg bot">Your free audit is confirmed for Monday 11am 🎉</div>
+                  <div class="msg in">Can I reschedule?</div>
+                  <div class="msg bot">Of course! Choose a slot:<br>📅 Tue 10am<br>📅 Wed 3pm<br>📅 Thu 11am</div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="ai-visual-phones">
-            <div class="phone-mock">
-              <div class="phone-header">
-                <div class="phone-avatar" style="background:rgba(34,197,94,0.15);font-size:.7rem">🏢</div>
-                <div style="font-size:.72rem">
-                  <div style="font-weight:600">S&C Bot</div>
-                  <div style="color:#22c55e;font-size:.65rem">● Online</div>
-                </div>
-              </div>
-              <div class="phone-body">
-                <div class="msg in">Hi! I want to know about your pricing.</div>
-                <div class="msg bot">Hello! 👋 I'm the S&C Digital assistant. Our plans start from ₹12,999/mo. Want me
-                  to send the full details?</div>
-                <div class="msg in">Yes please!</div>
-                <div class="typing"><span></span><span></span><span></span></div>
-              </div>
+          <div class="ai-features-grid">
+            <div class="ai-feat-card reveal">
+              <div class="icon"><img src="photos/whatsapp.png" alt="WhatsApp" /></div>
+              <h3>WhatsApp Automation</h3>
+              <p>Instant replies, lead qualification, and booking confirmations via WhatsApp Business API.</p>
             </div>
-            <div class="phone-mock main">
-              <div class="phone-header">
-                <div class="phone-avatar" style="background:rgba(255,92,26,0.15)">🚀</div>
-                <div style="font-size:.72rem">
-                  <div style="font-weight:600">Lead Alerts</div>
-                  <div style="color:var(--orange);font-size:.65rem">Auto-sending</div>
-                </div>
-              </div>
-              <div class="phone-body">
-                <div class="msg bot">🎯 New Lead: Ravi Kumar<br>Service: SEO Package<br>Budget: ₹20K+</div>
-                <div class="msg out">Following up! ✅</div>
-                <div class="msg bot">📊 Campaign Update: Your Google Ads hit 4.8× ROAS today!</div>
-                <div class="msg bot">✅ 12 new leads captured this afternoon. Detailed report sent to email.</div>
-              </div>
+            <div class="ai-feat-card reveal reveal-delay-1">
+              <div class="icon">🤖</div>
+              <h3>AI Chatbot</h3>
+              <p>Website chatbots trained on your business that convert visitors to leads automatically.</p>
             </div>
-            <div class="phone-mock">
-              <div class="phone-header">
-                <div class="phone-avatar" style="background:rgba(124,58,237,0.15)">📅</div>
-                <div style="font-size:.72rem">
-                  <div style="font-weight:600">Booking Bot</div>
-                  <div style="color:var(--purple);font-size:.65rem">● Active</div>
-                </div>
-              </div>
-              <div class="phone-body">
-                <div class="msg bot">Your free audit is confirmed for Monday 11am 🎉</div>
-                <div class="msg in">Can I reschedule?</div>
-                <div class="msg bot">Of course! Choose a slot:<br>📅 Tue 10am<br>📅 Wed 3pm<br>📅 Thu 11am</div>
-              </div>
+            <div class="ai-feat-card reveal reveal-delay-2">
+              <div class="icon">🔄</div>
+              <h3>CRM Workflows</h3>
+              <p>Automated lead follow-ups, pipeline updates, and customer onboarding flows.</p>
+            </div>
+            <div class="ai-feat-card reveal reveal-delay-3">
+              <div class="icon">📲</div>
+              <h3>Broadcast Campaigns</h3>
+              <p>Targeted WhatsApp broadcasts with 90%+ open rates that re-engage your audience instantly.</p>
+            </div>
+            <div class="ai-feat-card reveal">
+              <div class="icon">🎯</div>
+              <h3>Lead Gen Automation</h3>
+              <p>Capture, score, and route leads from ads, forms, and landing pages automatically.</p>
+            </div>
+            <div class="ai-feat-card reveal reveal-delay-1">
+              <div class="icon">🖼️</div>
+              <h3>Thumbnail Creation</h3>
+              <p>Scroll-stopping thumbnails crafted to maximise clicks on YouTube, ads, and social.</p>
+            </div>
+            <div class="ai-feat-card reveal reveal-delay-2">
+              <div class="icon">✍️</div>
+              <h3>Copywriting</h3>
+              <p>High-converting copy for ads, emails, and landing pages - written to sell.</p>
+            </div>
+            <div class="ai-feat-card reveal reveal-delay-3">
+              <div class="icon"><img src="photos/N8N.png" alt="n8n" /></div>
+              <h3> N8N Automations</h3>
+              <p>Custom workflows connecting your CRM, ads, email, and WhatsApp - zero manual work.</p>
             </div>
           </div>
         </div>
@@ -1064,7 +1085,7 @@
             </div>
             <div class="testi-card">
               <div class="stars">★★★★★</div>
-              <p class="testi-text">"S&C redesigned our brand's digital identity and the results were immediate — better engagement, more DMs, and a 40% jump in footfall to our clinic."</p>
+              <p class="testi-text">"S&C redesigned our brand's digital identity and the results were immediate - better engagement, more DMs, and a 40% jump in footfall to our clinic."</p>
               <div class="testi-author">
                 <div class="testi-avatar" style="color:var(--gold)">DN</div>
                 <div><div class="testi-name">Deepika Nair</div><div class="testi-co">Owner, Nair Wellness Clinic, Chennai</div></div>
@@ -1089,7 +1110,7 @@
             </div>
             <div class="testi-card">
               <div class="stars">★★★★★</div>
-              <p class="testi-text">"S&C redesigned our brand's digital identity and the results were immediate — better engagement, more DMs, and a 40% jump in footfall to our clinic."</p>
+              <p class="testi-text">"S&C redesigned our brand's digital identity and the results were immediate - better engagement, more DMs, and a 40% jump in footfall to our clinic."</p>
               <div class="testi-author">
                 <div class="testi-avatar" style="color:var(--gold)">DN</div>
                 <div><div class="testi-name">Deepika Nair</div><div class="testi-co">Owner, Nair Wellness Clinic, Chennai</div></div>
@@ -1118,7 +1139,7 @@
 
       <div class="faq-layout">
 
-        <!-- FAQ accordion — single column, all 8 items -->
+        <!-- FAQ accordion - single column, all 8 items -->
         <div class="faq-questions">
           <div class="faq-item" onclick="toggleFaq(this)">
             <div class="faq-q"><h3>How long before I see results?</h3><div class="faq-icon">+</div></div>
@@ -1154,7 +1175,7 @@
           </div>
         </div>
 
-        <!-- 3D Spline card — sticky on the right -->
+        <!-- 3D Spline card - sticky on the right -->
         <div class="faq-spline-wrap">
           <div class="faq-spline-card">
 
@@ -1164,7 +1185,7 @@
               <span class="faq-spline-loader-text">Loading 3D Scene</span>
             </div>
 
-            <!-- Spline 3D scene — lazy-loaded via JS when section enters viewport -->
+            <!-- Spline 3D scene - lazy-loaded via JS when section enters viewport -->
             <spline-viewer
               data-spline-src="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               id="faqSplineViewer"

@@ -165,7 +165,7 @@
           id: 1, title: 'Discovery Call', badge: 'Free · 30 min', emoji: '🔍',
           color: '#FF5C1A', glow: 'rgba(255,92,26,0.4)',
           relatedIds: [2],
-          content: 'We learn your business, goals, target audience, and current digital presence in a zero-pressure 30-minute audit call. No pitches — just clarity on where you stand and where you could be.',
+          content: 'We learn your business, goals, target audience, and current digital presence in a zero-pressure 30-minute audit call. No pitches - just clarity on where you stand and where you could be.',
         },
         {
           id: 2, title: 'Deep Audit', badge: 'Day 1–2', emoji: '🔬',
@@ -177,19 +177,19 @@
           id: 3, title: 'Custom Strategy', badge: 'Week 1', emoji: '🗺️',
           color: '#00D4FF', glow: 'rgba(0,212,255,0.35)',
           relatedIds: [2, 4],
-          content: 'A tailored 90-day growth roadmap covering channel mix, content calendar, budget allocation, KPIs, and measurable milestones — built specifically for your business goals.',
+          content: 'A tailored 90-day growth roadmap covering channel mix, content calendar, budget allocation, KPIs, and measurable milestones - built specifically for your business goals.',
         },
         {
           id: 4, title: 'Brand & Creative', badge: 'Week 1–2', emoji: '🎨',
           color: '#F5C518', glow: 'rgba(245,197,24,0.35)',
           relatedIds: [3, 5],
-          content: 'We develop your ad creatives, social templates, video scripts, landing page copy, and brand visuals — everything aligned to your voice and engineered to convert.',
+          content: 'We develop your ad creatives, social templates, video scripts, landing page copy, and brand visuals - everything aligned to your voice and engineered to convert.',
         },
         {
           id: 5, title: 'Campaign Launch', badge: 'Week 2', emoji: '🚀',
           color: '#FF5C1A', glow: 'rgba(255,92,26,0.4)',
           relatedIds: [4, 6],
-          content: 'Campaigns go live across Google, Meta, Instagram — wherever your audience lives. SEO work begins. WhatsApp automation deploys. Every piece runs on the roadmap with precision.',
+          content: 'Campaigns go live across Google, Meta, Instagram - wherever your audience lives. SEO work begins. WhatsApp automation deploys. Every piece runs on the roadmap with precision.',
         },
         {
           id: 6, title: 'Optimize & Test', badge: 'Ongoing', emoji: '⚡',
@@ -201,7 +201,7 @@
           id: 7, title: 'Scale & Report', badge: 'Monthly', emoji: '📈',
           color: '#22c55e', glow: 'rgba(34,197,94,0.35)',
           relatedIds: [6, 1],
-          content: 'Monthly strategy reviews, transparent performance dashboards, and scaling what\'s working — so your growth compounds month after month with zero guesswork.',
+          content: 'Monthly strategy reviews, transparent performance dashboards, and scaling what\'s working - so your growth compounds month after month with zero guesswork.',
         },
       ];
 
@@ -357,7 +357,7 @@
 
       const C = 'rgba(255,92,26,0.45)'; // subtle orange brand color
 
-      // Each row: [Y in tile, tile-height] — 12 rows matching the component
+      // Each row: [Y in tile, tile-height] - 12 rows matching the component
       const rows = [
         [235,235],[252,252],[150,150],[253,253],[204,204],
         [134,134],[179,179],[299,299],[215,215],[281,281],
@@ -452,7 +452,7 @@
         linkEl.classList.add('nav-active');
       }
 
-      // Click lock — prevents scroll from overriding clicked link during Lenis scroll
+      // Click lock - prevents scroll from overriding clicked link during Lenis scroll
       let clickLockTimer = null;
       let clickLocked = false;
 
@@ -465,7 +465,7 @@
         });
       });
 
-      // Throttled scroll handler — runs at most once per rAF
+      // Throttled scroll handler - runs at most once per rAF
       let scrollRafPending = false;
       window.addEventListener('scroll', () => {
         if (scrollRafPending || clickLocked) return;
@@ -757,7 +757,7 @@
       function stopViewer() {
         if (!active) return;
         active = false;
-        // Removing url fully kills the WebGL render loop — reloads from cache when restored
+        // Removing url fully kills the WebGL render loop - reloads from cache when restored
         viewer.removeAttribute('url');
         // Show loader again so there's no blank flash when coming back
         if (loaded && loader) { loader.style.display = 'flex'; loader.style.opacity = '1'; }

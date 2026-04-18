@@ -1913,7 +1913,7 @@
       color: var(--orange)
     }
 
-    /* Neon line — top */
+    /* Neon line - top */
     .btn-outline::before {
       content: '';
       position: absolute;
@@ -1927,7 +1927,7 @@
       pointer-events: none
     }
 
-    /* Neon line — bottom (always faint) */
+    /* Neon line - bottom (always faint) */
     .btn-outline::after {
       content: '';
       position: absolute;
@@ -1965,7 +1965,7 @@
       box-shadow: 0 8px 24px var(--orange-glow)
     }
 
-    /* Neon shine — top (white on orange) */
+    /* Neon shine - top (white on orange) */
     .btn-fill::before {
       content: '';
       position: absolute;
@@ -2073,68 +2073,132 @@
 
     .ai-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 80px;
-      align-items: center;
+      align-items: start;
       position: relative;
       z-index: 1
     }
 
+    .ai-grid > div,
+    .ai-right-col {
+      min-width: 0;
+      width: 100%
+    }
+
+    .ai-features-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+      align-items: stretch
+    }
+
     .ai-features {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 32px
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+      margin-top: 48px
+    }
+
+    .ai-features-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
     }
 
     .ai-feat-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 20px;
-      transition: all .25s
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.035) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 18px;
+      padding: 20px 20px 18px;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      aspect-ratio: 1.34 / 1;
+      min-height: 200px;
+      overflow: hidden;
+      width: 100%;
+      height: auto;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04)
     }
 
     .ai-feat-card:hover {
-      background: rgba(255, 255, 255, 0.07);
-      transform: translateY(-3px)
+      background: rgba(255, 255, 255, 0.075);
+      border-color: rgba(0, 212, 255, 0.24);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22)
     }
 
     .ai-feat-card .icon {
-      font-size: 1.5rem;
-      margin-bottom: 10px
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07)
     }
 
-    .ai-feat-card h4 {
-      font-size: .9rem;
-      font-weight: 600;
-      margin-bottom: 4px
+    .ai-feat-card .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: inherit
+    }
+
+    .ai-feat-card h3 {
+      font-size: .92rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-family: var(--font-a)
     }
 
     .ai-feat-card p {
-      font-size: .8rem;
-      color: var(--text2)
+      font-size: .82rem;
+      color: var(--text2);
+      line-height: 1.5;
+      margin-top: 0
+    }
+
+    .ai-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px
     }
 
     .ai-visual-phones {
       display: flex;
       gap: 16px;
       justify-content: center;
-      align-items: center
+      align-items: flex-start
     }
 
     .phone-mock {
       width: 160px;
+      height: 300px;
       border-radius: 28px;
       overflow: hidden;
       background: var(--surface2);
       border: 1px solid var(--border2);
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5)
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column
     }
 
     .phone-mock.main {
-      width: 180px;
-      transform: scale(1.05)
+      width: 160px;
+      height: 300px;
+      transform: scale(1)
     }
 
     .phone-header {
@@ -2160,7 +2224,9 @@
       padding: 12px 10px;
       display: flex;
       flex-direction: column;
-      gap: 8px
+      gap: 8px;
+      flex: 1;
+      overflow: hidden
     }
 
     .msg {
@@ -2826,7 +2892,7 @@
         linear-gradient(to left,   var(--bg2) 0%, transparent 14%)
     }
 
-    /* Paint over "Built with Spline" badge — bottom-right corner */
+    /* Paint over "Built with Spline" badge - bottom-right corner */
     .faq-spline-card::before {
       content: '';
       position: absolute;
@@ -2839,7 +2905,7 @@
       pointer-events: none;
     }
 
-    /* Loading placeholder — silent shimmer, no text */
+    /* Loading placeholder - silent shimmer, no text */
     .faq-spline-loader {
       position: absolute;
       inset: 0;
@@ -3464,6 +3530,24 @@
         padding: 40px 24px
       }
 
+      .ai-features,
+      .ai-features-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        grid-auto-rows: auto
+      }
+
+      .ai-features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px
+      }
+
+      .ai-feat-card {
+        min-height: 0;
+        height: auto;
+        overflow: visible
+      }
+
       .form-row {
         grid-template-columns: 1fr
       }
@@ -3502,10 +3586,10 @@
       .results-inner { padding: 32px 20px }
       .results-grid { gap: 28px }
 
-      /* ai section phones — stack them */
+      /* ai section phones - stack them */
       .ai-visual-phones { flex-wrap: wrap }
       .phone-mock:not(.main) { display: none }
-      .phone-mock.main { width: 200px }
+      .phone-mock.main { width: 160px }
 
       /* process orbital */
       .orbital-orbit-area { height: 300px }
@@ -3539,7 +3623,9 @@
       /* single column everything at 480 */
       .team-grid { grid-template-columns: 1fr }
       .results-grid { grid-template-columns: 1fr }
+      .ai-features-grid { grid-template-columns: 1fr }
       .ai-features { grid-template-columns: 1fr }
+      .ai-features-row { grid-template-columns: 1fr }
       .hero-stats { flex-direction: column; gap: 16px }
 
       /* team image height */
@@ -3566,7 +3652,7 @@
       /* results inner */
       .results-inner { padding: 28px 16px; border-radius: 16px }
 
-      /* testi columns — tighten */
+      /* testi columns - tighten */
       .testi-columns-wrap { gap: 14px }
       .testi-col { width: 280px }
     }
