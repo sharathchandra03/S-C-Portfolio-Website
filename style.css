@@ -179,7 +179,7 @@
     }
 
     .logo-img {
-      height: 38px;
+      height: 60px;
       width: auto;
       object-fit: contain;
     }
@@ -3439,6 +3439,10 @@
     }
 
     @media(max-width:768px) {
+
+      .logo-img {
+        height: 52px;
+      }
 
       .nav-links,
       .nav-cta {
