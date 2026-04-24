@@ -4,11 +4,20 @@
   "description": "S&C Digital Agency - Lead form to Google Sheets",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node ./node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "babel-jest": "^30.3.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "supertest": "^7.2.2"
   }
 }
