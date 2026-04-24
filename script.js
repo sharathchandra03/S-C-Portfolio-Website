@@ -1172,3 +1172,8 @@
       ioV.observe(video);
     }());
 
+// Test exports — safely ignored in browser (module is undefined)
+if (typeof module !== 'undefined') {
+  module.exports = { handleForm, animateCount, toggleFaq };
+}
+
