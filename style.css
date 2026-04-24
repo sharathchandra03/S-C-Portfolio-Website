@@ -179,7 +179,7 @@
     }
 
     .logo-img {
-      height: 60px;
+      height: 64px;
       width: auto;
       object-fit: contain;
     }
@@ -3288,11 +3288,11 @@
     }
 
     .footer-brand .logo {
-      margin-bottom: 12px
+      margin-bottom: 12px;
     }
 
     .footer-brand .logo-img {
-      height: 44px;
+      height: 56px;
       width: auto;
       object-fit: contain;
     }
@@ -3441,7 +3441,7 @@
     @media(max-width:768px) {
 
       .logo-img {
-        height: 52px;
+        height: 50px;
       }
 
       .nav-links,
