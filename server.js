@@ -45,7 +45,11 @@ app.post('/submit', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 S&C Lead Server running at http://localhost:${PORT}`);
-  console.log(`📊 Google Sheets: ${GOOGLE_SCRIPT_URL}\n`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n🚀 S&C Lead Server running at http://localhost:${PORT}`);
+    console.log(`📊 Google Sheets: ${GOOGLE_SCRIPT_URL}\n`);
+  });
+}
+
+module.exports = app;
