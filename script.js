@@ -431,7 +431,7 @@
       if (!limelight || !navInner) return;
 
       // Pre-cache section offsets (recomputed only on resize)
-      const sectionIds = ['services', 'why', 'pricing', 'automation', 'team', 'faq', 'contact'];
+      const sectionIds = ['home', 'services', 'why', 'automation', 'team', 'faq', 'contact'];
       let sectionTops = [];
       function cacheSectionTops() {
         sectionTops = sectionIds.map(id => {
@@ -492,8 +492,16 @@
     document.getElementById('logoLink').addEventListener('click', function (e) {
       e.preventDefault();
       lenis.scrollTo(0, { duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-      document.getElementById('navLimelight').style.opacity = '0';
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('nav-active'));
+      const homeLink = document.querySelector('.nav-links a[href="#home"]');
+      const lm = document.getElementById('navLimelight');
+      const ni = document.querySelector('.nav-inner');
+      if (homeLink && lm && ni) {
+        const nr = ni.getBoundingClientRect(), lr = homeLink.getBoundingClientRect();
+        lm.style.left = (lr.left - nr.left + lr.width / 2 - 22) + 'px';
+        lm.style.opacity = '1';
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('nav-active'));
+        homeLink.classList.add('nav-active');
+      }
     });
 
     // ─── HOVER GLOW BUTTONS ───
